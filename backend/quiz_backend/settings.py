@@ -31,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'core.User'
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +46,8 @@ INSTALLED_APPS = [
     'quiz'
 
 ]
+
+AUTH_USER_MODEL = 'core.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

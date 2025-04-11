@@ -28,7 +28,29 @@ class AnswerChoice(models.Model):
         return self.text
 
 class StudentAnswer(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_answer = models.ForeignKey(AnswerChoice, on_delete=models.CASCADE)
 
 
+class QuizEnrollment(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)  
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)  
+    enrolled_at = models.DateTimeField(auto_now_add=True) 
+
+    class Meta:
+        unique_together = ('user', 'quiz')  
+
+    def __str__(self):
+        return f"{self.user.username} enrolled in {self.quiz.title}"
+
+class QuizSubmission(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    answers = models.JSONField()  
+    score = models.IntegerField(null=True, blank=True)  
+    is_passed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'quiz')  
