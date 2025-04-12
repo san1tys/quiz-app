@@ -1,6 +1,6 @@
 # urls.py
 from django.urls import path
-from .views import QuizAPIView, QuizCreateAPIView, QuizEnrollAPIView, MyQuizzesAPIView, QuizSubmitAPIView, QuizUnenrollAPIView, QuizDetailAPIView, StudentScoresAPIView
+from .views import *
 
 
 urlpatterns = [

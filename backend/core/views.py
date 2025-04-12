@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, UserDetailSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -7,7 +7,6 @@ from drf_yasg.utils import swagger_auto_schema
 
 class RegistrationAPIView(APIView):
     serializer_class = RegistrationSerializer
-
 
     @swagger_auto_schema(
         operation_description="Registration",
@@ -33,8 +32,6 @@ class CurrentUserAPIView(APIView):
 
     def get(self, request):
         user = request.user
-        return Response({
-            "id": user.id,
-            "username": user.username,
-            "role": user.role
-        })
+        
+        serializer = UserDetailSerializer(user)
+        return Response(serializer.data)

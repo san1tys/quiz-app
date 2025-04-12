@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'quiz',
     'drf_yasg',
     'corsheaders'
-
 ]
 
 AUTH_USER_MODEL = 'core.User'

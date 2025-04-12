@@ -6,7 +6,7 @@ from .permissions import IsTeacherOrReadOnly
 from .models import Quiz, QuizEnrollment, QuizSubmission
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
-from .serializers import QuizDetailSerializer, QuizListSerializer, QuizSubmissionSerializer
+from .serializers import *
 from drf_yasg import openapi
 
 class AuthenticatedAPIView(APIView):
