@@ -11,10 +11,9 @@ class RegistrationAPIView(APIView):
         user = request.data
 
         serializer = self.serializer_class(data=user)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 
 
 class CurrentUserAPIView(APIView):

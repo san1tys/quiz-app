@@ -27,12 +27,6 @@ class AnswerChoice(models.Model):
     def __str__(self):
         return self.text
 
-class StudentAnswer(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    selected_answer = models.ForeignKey(AnswerChoice, on_delete=models.CASCADE)
-
-
 class QuizEnrollment(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)  
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)  
@@ -54,3 +48,4 @@ class QuizSubmission(models.Model):
 
     class Meta:
         unique_together = ('user', 'quiz')  
+    
