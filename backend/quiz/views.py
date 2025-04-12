@@ -5,42 +5,68 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsTeacherOrReadOnly
 from .models import Quiz, QuizEnrollment, QuizSubmission
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from .serializers import QuizDetailSerializer, QuizListSerializer, QuizSubmissionSerializer
+from drf_yasg import openapi
 
 class AuthenticatedAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
 
 class QuizAPIView(AuthenticatedAPIView):
-    
+    """
+        Getting all quizzes that is created by teacher
+        or
+        View all quizzes that is exists in system by student
+    """
+
+    @swagger_auto_schema(
+        responses={200: QuizListSerializer(many=True)}
+    )
     def get(self, request, *args, **kwargs):
         if request.user.role == 'teacher':
-            quizzes = Quiz.objects.all().filter(created_by=request.user)  
+            quizzes = Quiz.objects.filter(created_by=request.user)
         else:
             quizzes = Quiz.objects.all()
         serializer = QuizListSerializer(quizzes, many=True)
         return Response(serializer.data)
+
     
     
 class QuizDetailAPIView(AuthenticatedAPIView):
-    permission_classes = [IsTeacherOrReadOnly]
-    
+
+    @swagger_auto_schema(
+        operation_description="Get deatiled view of quiz(questions, answers)",
+        responses={200: QuizDetailSerializer()}
+    )
     def get(self, request, *args, **kwargs):
         id = self.kwargs['id']
-        print(id)
         quiz = get_object_or_404(Quiz, pk=id)
         serializer = QuizDetailSerializer(quiz)
         return Response(serializer.data)
-    
+
+
+class QuizCreateAPIView(AuthenticatedAPIView):
+    """
+        Create quiz by teacher only
+    """
+    permission_classes = [IsTeacherOrReadOnly]
+
+    @swagger_auto_schema(request_body=QuizDetailSerializer, responses={201: 'Quiz created'})
     def post(self, request):
         serializer = QuizDetailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(created_by = request.user)
+        serializer.save(created_by=request.user)
         return Response({"detail": "Quiz created successfully"}, status=201)
-    
 
 class QuizEnrollAPIView(AuthenticatedAPIView):
-
+    @swagger_auto_schema(
+        operation_description="Enroll to the quiz by id",
+        responses={
+            201: openapi.Response("Enrolled successfully"),
+            400: "Already enrolled"
+        }
+    )
     def post(self, request, quiz_id):
         user = request.user
         quiz = get_object_or_404(Quiz, pk=quiz_id)
@@ -53,6 +79,16 @@ class QuizEnrollAPIView(AuthenticatedAPIView):
 
 
 class QuizUnenrollAPIView(AuthenticatedAPIView):
+    """
+        Unenroll from the quiz by student
+    """
+
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Response("Unenrolled successfully"),
+            400: "Not enrolled in this quiz"
+        }
+    )
     def post(self, request, quiz_id):
         user = request.user
 
@@ -72,6 +108,9 @@ class QuizUnenrollAPIView(AuthenticatedAPIView):
 
 
 class MyQuizzesAPIView(AuthenticatedAPIView):
+    """
+        View of all quizzes that were enrolled by student.
+    """
 
     def get(self, request):
         enrollments = QuizEnrollment.objects.filter(user=request.user).select_related('quiz')
@@ -79,14 +118,23 @@ class MyQuizzesAPIView(AuthenticatedAPIView):
         serializer = QuizListSerializer(quizzes, many=True)
         return Response(serializer.data)
 
-
 class QuizSubmitAPIView(AuthenticatedAPIView):
 
+    @swagger_auto_schema(
+        operation_description="Submit answers to the quiz. Evaluate score",
+        request_body=QuizSubmissionSerializer,
+        responses={
+            200: QuizSubmissionSerializer(),
+            400: "Validation error",
+            403: "have not enrollet to the quiz",
+            404: "Quiz not found"
+        }
+    )
     def post(self, request, quiz_id):
         user = request.user
 
         try:
-            user = QuizEnrollment.objects.filter(user=user).first()
+            enrollment = QuizEnrollment.objects.filter(user=user).first()
         except QuizEnrollment.DoesNotExist:
             return Response({"detail": "You have not enrolled to the quiz."}, status=403)
 
@@ -98,7 +146,7 @@ class QuizSubmitAPIView(AuthenticatedAPIView):
         if QuizSubmission.objects.filter(user=user, quiz=quiz).exists():
             return Response({"detail": "You already submitted this quiz."}, status=400)
 
-        answers = request.data.get("answers")  
+        answers = request.data.get("answers")
         if not answers:
             return Response({"detail": "No answers provided."}, status=400)
 
@@ -114,8 +162,9 @@ class QuizSubmitAPIView(AuthenticatedAPIView):
                 is_passed=score >= 50
             )
             return Response(serializer.data)
-        
+
         return Response(serializer.errors, status=400)
+
 
     def evaluate_quiz(self, quiz, answers):
         correct = 0
@@ -135,6 +184,10 @@ class QuizSubmitAPIView(AuthenticatedAPIView):
 
 
 class StudentScoresAPIView(AuthenticatedAPIView):
+    """
+        Checking student's answers, only for teachers
+    """
+
     permission_classes = [IsTeacherOrReadOnly]
 
     def get(self, request, quiz_id):
@@ -149,4 +202,5 @@ class StudentScoresAPIView(AuthenticatedAPIView):
             return Response({"detail" : "You can't see student's answers"}, status=500)
         serializer = QuizSubmission(data, many=True)
         return Response(serializer.data)
+ 
  

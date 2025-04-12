@@ -39,12 +39,11 @@ class QuizListSerializer(serializers.ModelSerializer):
         model = Quiz
         fields = ['id', 'title', 'description']
 
-
         
 
 class QuizSubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuizSubmission
-        fields = ['answers']
+        fields = ['answers', 'user', 'quiz', 'score', 'is_passed', 'submitted_at']
         read_only_fields = ['user', 'quiz', 'score', 'is_passed', 'submitted_at']
 

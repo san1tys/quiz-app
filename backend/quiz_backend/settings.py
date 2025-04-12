@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',  
     'rest_framework_simplejwt',  
     'core',
-    'quiz'
+    'quiz',
+    'drf_yasg'
 
 ]
 
@@ -67,6 +68,18 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
+
 
 TEMPLATES = [
     {

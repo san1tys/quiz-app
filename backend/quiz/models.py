@@ -34,9 +34,10 @@ class QuizEnrollment(models.Model):
 
     class Meta:
         unique_together = ('user', 'quiz')  
-
+    
     def __str__(self):
-        return f"{self.user.username} enrolled in {self.quiz.title}"
+        return f"{self.user}"
+
 
 class QuizSubmission(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
