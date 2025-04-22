@@ -14,8 +14,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'teacher/quizzes/create', component: CreateQuizComponent, canActivate: [authGuard, TeacherGuard] },
+    { path: 'dashboard/create', component: CreateQuizComponent, canActivate: [authGuard, TeacherGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
     { path: 'access-denied', component : AccessDeniedComponent},
-    { path: 'teacher/quizzes', component: ManageQuizzesComponent, canActivate: [authGuard, TeacherGuard]}
 ];

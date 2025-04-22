@@ -1,1 +1,8 @@
-<p>dashboard works!</p>
+<div>
+    @if (role === 'teacher') {
+        <app-manage-quizzes></app-manage-quizzes>
+    }
+    @if (role === 'student') {
+        <app-view-quizzes></app-view-quizzes>
+    }
+</div>
