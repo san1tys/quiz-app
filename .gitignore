@@ -4,6 +4,7 @@
 /frontend/tmp
 /frontend/out-tsc
 /frontend/bazel-out
+.angular/
 
 # --- BACKEND (Django) ---
 /backend/venv/
