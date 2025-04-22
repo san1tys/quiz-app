@@ -1,20 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-quiz-card',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [],
+  templateUrl: './quiz-card.component.html',
+  styleUrl: './quiz-card.component.scss'
 })
 export class QuizCardComponent {
-  @Input() id!: number;
-  @Input() title!: string;
-  @Input() questionCount!: number;
 
-  constructor(private router: Router) { }
-
-  goToDetail() {
-    this.router.navigate(['/quiz', this.id]);
-  }
 }

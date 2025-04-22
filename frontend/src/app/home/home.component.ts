@@ -8,6 +8,7 @@ import { HeaderComponent } from '../shared/components/header/header.component';
   selector: 'app-home',
   imports: [HeaderComponent],
   templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   constructor(private router: Router) { }
