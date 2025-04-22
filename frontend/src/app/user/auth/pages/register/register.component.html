@@ -10,7 +10,8 @@
             <app-password-input formControlName="password"></app-password-input>
             <app-password-input formControlName="password2"></app-password-input>
 
-            <select formControlName="role" class="input-box mt-2">
+            <select formControlName="role"
+                class=" w-full text-sm bg-transparent border-[1.5px] px-4 py-3 rounded mb-4 outline-none mt-2">
                 <option *ngFor="let r of roles" [value]="r">{{ r | titlecase }}</option>
             </select>
 
