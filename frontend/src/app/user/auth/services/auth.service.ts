@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,9 @@ export class AuthService {
   private readonly ACCESS_TOKEN = 'access_token';
   private readonly REFRESH_TOKEN = 'refresh_token';
   private readonly USER = 'user';
+
+  private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(this.getUser());
+  public user$ = this.userSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -24,16 +28,23 @@ export class AuthService {
 
     if (response?.access && response?.refresh) {
       this.setTokens(response.access, response.refresh);
-      // Если хочешь получать пользователя — можешь оставить fetchUserInfo
-      // await this.fetchUserInfo(); 
+      await this.fetchUserInfo(); // Fetch user info after login
     }
 
     return response;
   }
 
   private async fetchUserInfo() {
-    const user = await this.http.get<any>('http://localhost:8000/api/user/').toPromise();
+    const token = this.getAccessToken();
+
+    const user = await this.http.get<any>('http://localhost:8000/api/user/', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).toPromise();
+
     localStorage.setItem(this.USER, JSON.stringify(user));
+    this.userSubject.next(user);
   }
 
   setTokens(access: string, refresh: string): void {
@@ -63,6 +74,7 @@ export class AuthService {
     localStorage.removeItem(this.ACCESS_TOKEN);
     localStorage.removeItem(this.REFRESH_TOKEN);
     localStorage.removeItem(this.USER);
+    this.userSubject.next(null); // Notify subscribers about logout
     this.router.navigate(['/login']);
   }
 }

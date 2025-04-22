@@ -6,6 +6,8 @@ import { QuizDetailComponent } from './features/quiz/components/quiz-detail/quiz
 import { CreateQuizComponent } from './features/teacher/pages/create-quiz/create-quiz.component';
 import { QuizListComponent } from './features/quiz/components/quiz-list/quiz-list.component';
 
+import { authGuard } from './core/auth.guard';
+import { DashboardComponent } from './user/auth/pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,4 +17,6 @@ export const routes: Routes = [
     { path: 'create', component: CreateQuizComponent },
     { path: 'quiz/:id', component: QuizDetailComponent },
     { path: 'quiz-list', component: QuizListComponent },
+    { path: 'create', component: CreateQuizComponent, canActivate: [authGuard] },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
 ];

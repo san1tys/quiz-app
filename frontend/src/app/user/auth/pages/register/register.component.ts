@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { HeaderComponent } from '../../../../shared/components/header/header.component';
 import { PasswordInputComponent } from '../../../../shared/components/password-input/password-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,7 +10,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [HeaderComponent, PasswordInputComponent, ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [PasswordInputComponent, ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
