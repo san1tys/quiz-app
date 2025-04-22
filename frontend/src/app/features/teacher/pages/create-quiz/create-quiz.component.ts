@@ -62,19 +62,27 @@ export class CreateQuizComponent {
         );
       }
 
+      getAnswerChoicesControls(questionIndex: number): any[] {
+        const questions = this.form.get('questions') as FormArray;
+        const answerChoices = questions.at(questionIndex).get('answer_choices') as FormArray;
+        return answerChoices ? answerChoices.controls : [];
+      }
+
       removeQuestion(i: number) {
         const questions = this.form.get('questions') as FormArray;
         questions.removeAt(i);
       }
-      
 
+      removeAnswer(questionIndex: number, answerIndex: number) {
+        const questions = this.form.get('questions') as FormArray;
+        const question = questions.at(questionIndex) as FormGroup; 
+        const answerChoices = question.get('answer_choices') as FormArray; 
+        answerChoices.removeAt(answerIndex);
+      }
+      
       onSubmit() {
         if (this.form.valid) {
           console.log('Форма квиза:', this.form.value);
         }
       }
-
-  
-      
-      
 } 
