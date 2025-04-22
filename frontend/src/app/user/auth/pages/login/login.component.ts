@@ -43,12 +43,22 @@ export class LoginComponent implements OnInit {
     }
 
     const { username, password } = this.loginForm.value;
+    this.error = null;
 
     try {
       await this.authService.login(username, password);
       this.router.navigate(['/dashboard']);
     } catch (err: any) {
-      this.error = err?.error?.detail || 'An unexpected error occurred.';
+      const errors = err?.error;
+
+      if (errors?.non_field_errors) {
+        this.error = errors.non_field_errors[0];
+      } else if (errors?.username) {
+        this.error = errors.username[0];
+      } else {
+        this.error = 'Invalid credentials. Please try again.';
+      }
     }
   }
+
 }
