@@ -1,1 +1,25 @@
-<p>register works!</p>
+<app-header></app-header>
+
+<div class="flex items-center justify-center mt-28">
+    <div class="w-96 border rounded bg-white px-7 py-10">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <h4 class="text-2xl mb-7">Sign Up</h4>
+
+            <input type="text" formControlName="name" placeholder="Name" class="input-box" />
+            <input type="email" formControlName="email" placeholder="Email" class="input-box" />
+
+            <app-password-input formControlName="password"></app-password-input>
+
+            <p *ngIf="error" class="text-red-500 text-xs pb-1">{{ error }}</p>
+
+            <button type="submit" class="btn-primary">Create Account</button>
+
+            <p class="text-sm text-center mt-4">
+                Already have an account?
+                <a routerLink="/login" class="font-medium text-primary underline ">
+                    Login
+                </a>
+            </p>
+        </form>
+    </div>
+</div>
