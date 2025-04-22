@@ -1,0 +1,4 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <app-quiz-card *ngFor="let quiz of quizzes" [id]="quiz.id" [title]="quiz.title"
+        [questionCount]="quiz.question_count" />
+</div>
