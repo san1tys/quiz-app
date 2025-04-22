@@ -1,3 +1,16 @@
-<div class='flex bg-white items-center justify-between px-6 py-2 drop-shadow'>
-    <h2 class='text-xl font-medium text-black py-2'>Quiz App</h2>
+<div class="flex bg-white items-center justify-between px-6 py-2 drop-shadow">
+    <h2 class="text-xl font-medium text-black py-2">Quiz App</h2>
+
+    <ng-container *ngIf="isLoggedIn">
+        <div class="flex items-center gap-3">
+            <div
+                class="w-12 h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100">
+                S
+            </div>
+            <div class="">
+                <p class="text-sm font-medium">{{userInfo?.username}}</p>
+                <button (click)="logout()" class="text-sm text-slate-700 underline">Logout</button>
+            </div>
+        </div>
+    </ng-container>
 </div>
