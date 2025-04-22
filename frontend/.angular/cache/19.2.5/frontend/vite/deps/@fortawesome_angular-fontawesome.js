@@ -1,4 +1,12 @@
 import {
+  config$1,
+  counter,
+  dom$1,
+  icon,
+  parse$1,
+  text
+} from "./chunk-MMLL7LY6.js";
+import {
   DomSanitizer
 } from "./chunk-LJJDPCP3.js";
 import "./chunk-E3UI5G42.js";
@@ -33,14 +41,6 @@ import {
   ɵɵprojectionDef,
   ɵɵsanitizeHtml
 } from "./chunk-NWEST3AH.js";
-import {
-  config$1,
-  counter,
-  dom$1,
-  icon,
-  parse$1,
-  text
-} from "./chunk-MMLL7LY6.js";
 import "./chunk-WDMUDEB6.js";
 
 // node_modules/@fortawesome/angular-fontawesome/fesm2022/angular-fontawesome.mjs
