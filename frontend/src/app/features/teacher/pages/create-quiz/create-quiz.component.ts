@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TeacherQuizService } from '../../services/teacher-quiz.service';
+import { Quiz } from '../../../../models/quiz';
 
 @Component({
   selector: 'app-create',
@@ -83,6 +84,23 @@ export class CreateQuizComponent {
       onSubmit() {
         if (this.form.valid) {
           console.log('Форма квиза:', this.form.value);
+          const quiz: Quiz = this.form.value as Quiz;
+      
+          this.teacherQuizService.createQuiz(quiz).subscribe({
+            next: (createdQuiz) => {
+              console.log('Квиз успешно создан:', createdQuiz);
+              // Сброс формы после успешной отправки
+              this.form.reset();
+              // Можно добавить уведомление пользователю (например, через MatSnackBar)
+            },
+            error: (error) => {
+              console.error('Ошибка при создании квиза:', error);
+              // Можно уведомить пользователя о проблемах
+              // Например, через MatSnackBar
+            }
+          });
+        } else {
+          console.log('Форма некорректна');
         }
       }
 } 

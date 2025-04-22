@@ -31,7 +31,7 @@
                 <div formGroupName="{{j}}" class="flex items-center space-x-2">
                   <input type="text" formControlName="text" class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-blue-700 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Answer option">
                   <label class="flex items-center text-blue-700 text-sm">
-                    <input type="radio" formControlName="is_correct" name="question_' + i" class="form-radio h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
+                    <input type="checkbox" formControlName="is_correct" class="form-radio h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
                     <span class="ml-2">Correct</span>
                   </label>
                   <button type="button" (click)="removeAnswer(i, j)" class="text-red-500 hover:text-red-700 text-sm focus:outline-none">Delete</button>
