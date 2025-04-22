@@ -2,10 +2,11 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../user/auth/services/auth.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
