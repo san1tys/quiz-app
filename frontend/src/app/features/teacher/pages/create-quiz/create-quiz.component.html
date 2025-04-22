@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 space-y-4">
+    <h2 class="text-xl font-bold">Создание квиза</h2>
+    
+    <div class="">
+        <input type="text" formControlName="title" class="border p-2" placeholder="Введение название квиза">
+        <input type="text" formControlName="description" class="border p-2" placeholder="Введение описание квиза">
+    </div>
+
+    <div formArrayName="questions">
+        
+        @for (question of form.controls['questions'].controls; let i = $index; track $index) {
+           <div formGroupName="{{i}}">
+                <input type="text" formControlName="text" placeholder="Quiestion name">
+
+                <!-- <div formArrayName="answer_choices" -->
+                
+           </div>
+           
+        }
+
+        <button (click) = "addQuestion()">Add question</button>
+        
+
+        
+
+    </div>
+
+    
+</form>

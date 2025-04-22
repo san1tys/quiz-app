@@ -1,0 +1,80 @@
+import { Component, inject } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TeacherQuizService } from '../../services/teacher-quiz.service';
+
+@Component({
+  selector: 'app-create',
+  imports: [ReactiveFormsModule],
+  templateUrl: './create-quiz.component.html',
+  styleUrl: './create-quiz.component.scss'
+})
+export class CreateQuizComponent {
+      teacherQuizService = inject(TeacherQuizService);
+
+      form = new FormGroup({
+        title: new FormControl<string>('', {
+          nonNullable: true,
+          validators: [Validators.required]
+        }),
+        description: new FormControl<string>('', {
+          nonNullable: true,
+          validators: [Validators.required]
+        }),
+        questions: new FormArray<FormGroup<any>>([]) 
+      });
+
+
+      addQuestion() {
+        const questionForm = new FormGroup({
+          text: new FormControl<string>('', {
+            nonNullable: true,
+            validators: [Validators.required]
+          }),
+          answer_choices: new FormArray<FormGroup<any>>([
+            new FormGroup({
+              text: new FormControl<string>('', {
+                nonNullable: true,
+                validators: [Validators.required]
+              }),
+              is_correct: new FormControl<boolean>(false, {
+                nonNullable: true
+              })
+            })
+          ])
+        });
+      
+        (this.form.get('questions') as FormArray).push(questionForm);
+      }
+
+
+      addAnswerChoice(questionIndex: number) {
+        const questions = this.form.get('questions') as FormArray;
+        const answerChoices = questions.at(questionIndex).get('answer_choices') as FormArray;
+      
+        answerChoices.push(
+          new FormGroup({
+            text: new FormControl<string>('', {
+              nonNullable: true,
+              validators: [Validators.required]
+            }),
+            is_correct: new FormControl<boolean>(false, { nonNullable: true })
+          })
+        );
+      }
+
+      removeQuestion(i: number) {
+        const questions = this.form.get('questions') as FormArray;
+        questions.removeAt(i);
+      }
+      
+
+      onSubmit() {
+        if (this.form.valid) {
+          console.log('Форма квиза:', this.form.value);
+        }
+      }
+
+  
+      
+      
+} 
