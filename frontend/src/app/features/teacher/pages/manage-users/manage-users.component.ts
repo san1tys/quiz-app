@@ -20,7 +20,7 @@ export class ManageUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.quizId = +params['quizId']; // Получаем quizId из query-параметров
+      this.quizId = +params['quizId'];
       this.fetchScores();
     });
   }

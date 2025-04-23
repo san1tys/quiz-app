@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Quiz } from '../../../models/quiz';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { QuizScore } from '../../../models/quiz-score';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,9 @@ export class TeacherQuizService {
   private http = inject(HttpClient);
   private readonly API_URL = 'http://127.0.0.1:8000/api/quiz/';
 
-  // Создаём функцию для генерации заголовков
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
     if (!token) {
-      // Если токен не найден, можно вернуть ошибку или перенаправить пользователя на логин
       console.error('Token not found');
       return new HttpHeaders();
     }
@@ -34,10 +33,11 @@ export class TeacherQuizService {
     return this.http.get<Quiz[]>(`${this.API_URL}quizzes/`, { headers: this.getHeaders() });
   }
 
-  getQuizScores(quizId: number): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}${quizId}/scores/`, {
+  getQuizScores(quizId: number): Observable<QuizScore[]> {
+    return this.http.get<QuizScore[]>(`${this.API_URL}${quizId}/scores/`, {
       headers: this.getHeaders()
     });
   }
+
 
 }

@@ -43,7 +43,8 @@
               class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none "
               placeholder="Answer option">
             <label class="flex items-center text-green-600 text-sm">
-              <input type="checkbox" formControlName="is_correct"
+              <input type="checkbox" [checked]="answer.get('is_correct')?.value"
+                (change)="onCorrectAnswerSelected(i, j)"
                 class="form-radio h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
               <span class="ml-2">Correct</span>
             </label>
@@ -51,6 +52,11 @@
               class="text-red-500 hover:text-red-700 text-sm focus:outline-none">Delete</button>
           </div>
           }
+
+          <p *ngIf="submitted && getAnswerChoicesControls(i).length < 2" class="text-red-500 text-sm mt-1">
+            Each question must have at least two answers.
+          </p>
+
           <button type="button" (click)="addAnswerChoice(i)"
             class="bg-blue-500 hover:bg-primary text-white font-semibold py-2 px-4 rounded focus:outline-none">
             Add Answer
@@ -69,6 +75,14 @@
         Add Question
       </button>
     </div>
+
+
+
+    <p *ngIf="submitted && questions.length === 0" class="text-red-500 text-sm text-center">
+      At least one question is required.
+    </p>
+
+
 
     <button type="submit" [disabled]="form.invalid"
       class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded focus:outline-none mt-6 w-full">
