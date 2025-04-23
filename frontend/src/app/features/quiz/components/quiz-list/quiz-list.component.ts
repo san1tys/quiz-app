@@ -1,0 +1,15 @@
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { QuizCardComponent } from '../quiz-card/quiz-card.component';
+import { Quiz } from '../../../../models/quiz';
+
+@Component({
+  selector: 'app-quiz-list',
+  standalone: true,
+  imports: [CommonModule, QuizCardComponent],
+  templateUrl: './quiz-list.component.html',
+  styleUrl: './quiz-list.component.scss'
+})
+export class QuizListComponent {
+  @Input() quizzes: Quiz[] = [];
+}

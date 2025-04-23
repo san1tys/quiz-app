@@ -1,21 +1,10 @@
 <div class="p-6">
   <h1 class="text-2xl font-bold mb-4">Список тестов</h1>
 
-  @if (quizzes.length === 0) {
-  <p class="text-gray-500">Нет доступных тестов.</p>
-  } @else {
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    @for (quiz of quizzes; track quiz.id) {
-    <div class="bg-white shadow rounded-2xl p-4 border border-gray-100 hover:shadow-md transition duration-300">
-      <h2 class="text-lg font-semibold mb-2">{{ quiz.title }}</h2>
-      <p class="text-sm text-slate-500 mb-2">{{ quiz.description }}</p>
-      <p class="text-xs text-slate-500">ID: {{ quiz.id }}</p>
-    </div>
-    }
-  </div>
-  }
+  <app-quiz-list [quizzes]="quizzes"></app-quiz-list>
 
   <button routerLink="/dashboard/create"
-    class="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"><fa-icon
-      [icon]="faPlus" class="text-white text-[26px]"></fa-icon></button>
+    class="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10">
+    <fa-icon [icon]="faPlus" class="text-white text-[26px]"></fa-icon>
+  </button>
 </div>

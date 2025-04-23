@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Quiz } from '../../../../models/quiz';
 
 @Component({
   selector: 'app-quiz-card',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './quiz-card.component.html',
-  styleUrl: './quiz-card.component.scss'
+  styleUrl: './quiz-card.component.scss',
 })
 export class QuizCardComponent {
-
+  @Input() quiz!: Quiz;
 }
