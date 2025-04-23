@@ -12,7 +12,10 @@ import { StudentService } from '../../../student/services/student.service';
   styleUrl: './quiz-card.component.scss',
 })
 export class QuizCardComponent {
+
+
   @Input() quiz!: Quiz;
+  @Input() mode: 'my-quizzes' | 'all-quizzes' = 'all-quizzes'
 
   private studentQuizService = inject(StudentService);
 
@@ -20,6 +23,10 @@ export class QuizCardComponent {
   user = this.userString ? JSON.parse(this.userString) : null;
   role = this.user?.role ?? '';
   isEnrolled = false;
+
+  play() {
+      throw new Error('Method not implemented.');
+  }
 
   enroll() {
     if (!this.quiz.id) return;
@@ -40,4 +47,5 @@ export class QuizCardComponent {
       }
     });
   }
+
 }

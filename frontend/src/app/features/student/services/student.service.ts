@@ -36,4 +36,11 @@ export class StudentService {
       headers: this.getHeaders()
     });
   }
+
+  getEnrolledQuizzes() : Observable<Quiz[]> {
+    return this.http.get<Quiz[]>(`${this.API_URL}my-quizzes/`, {
+      headers: this.getHeaders()
+    });
+  }
+
 }

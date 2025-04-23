@@ -1,10 +1,12 @@
 import { Component, ViewRef } from '@angular/core';
 import { ManageQuizzesComponent } from '../../../../features/teacher/pages/manage-quizzes/manage-quizzes.component';
 import { ViewQuizzesComponent } from '../../../../features/student/pages/view-quizzes/view-quizzes.component';
+import { RouterOutlet } from '@angular/router';
+import { AllQuizzesComponent } from "../../../../features/student/pages/all-quizzes/all-quizzes.component";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ManageQuizzesComponent, ViewQuizzesComponent],
+  imports: [ManageQuizzesComponent, ViewQuizzesComponent, RouterOutlet, AllQuizzesComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

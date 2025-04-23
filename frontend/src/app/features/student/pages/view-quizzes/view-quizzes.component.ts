@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { StudentService } from '../../services/student.service';
 import { Quiz } from '../../../../models/quiz';
 import { QuizListComponent } from '../../../quiz/components/quiz-list/quiz-list.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-view-quizzes',
-  imports: [QuizListComponent],
+  imports: [QuizListComponent, RouterLink],
   templateUrl: './view-quizzes.component.html',
   styleUrl: './view-quizzes.component.scss'
 })

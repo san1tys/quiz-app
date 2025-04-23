@@ -12,4 +12,5 @@ import { Quiz } from '../../../../models/quiz';
 })
 export class QuizListComponent {
   @Input() quizzes: Quiz[] = [];
+  @Input() mode: 'my-quizzes' | 'all-quizzes' = 'all-quizzes'
 }
