@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { StdudentService } from '../../services/student.service';
+import { StudentService } from '../../services/student.service';
 import { Quiz } from '../../../../models/quiz';
 import { QuizListComponent } from '../../../quiz/components/quiz-list/quiz-list.component';
 
@@ -10,7 +10,7 @@ import { QuizListComponent } from '../../../quiz/components/quiz-list/quiz-list.
   styleUrl: './view-quizzes.component.scss'
 })
 export class ViewQuizzesComponent {
-  studentQuizService = inject(StdudentService);
+  studentQuizService = inject(StudentService);
 
   quizzes: Quiz[] = [];
 

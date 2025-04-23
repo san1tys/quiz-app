@@ -6,12 +6,16 @@ import { Quiz } from '../../../models/quiz';
 @Injectable({
   providedIn: 'root'
 })
-export class StdudentService {
+export class StudentService {
   private http = inject(HttpClient);
   private readonly API_URL = 'http://127.0.0.1:8000/api/quiz/';
 
+  private getToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('access_token');
+    const token = this.getToken();
     if (!token) {
       console.error('Token not found');
       return new HttpHeaders();
@@ -22,7 +26,14 @@ export class StdudentService {
   }
 
   getQuizzes(): Observable<Quiz[]> {
-    return this.http.get<Quiz[]>(`${this.API_URL}quizzes/`, { headers: this.getHeaders() });
+    return this.http.get<Quiz[]>(`${this.API_URL}quizzes/`, {
+      headers: this.getHeaders()
+    });
   }
-  
+
+  enrollInQuiz(quizId: string): Observable<any> {
+    return this.http.post(`${this.API_URL}${quizId}/enroll/`, {}, {
+      headers: this.getHeaders()
+    });
+  }
 }
