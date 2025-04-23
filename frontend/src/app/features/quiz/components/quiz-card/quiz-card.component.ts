@@ -11,4 +11,7 @@ import { Quiz } from '../../../../models/quiz';
 })
 export class QuizCardComponent {
   @Input() quiz!: Quiz;
+  userString = localStorage.getItem('user');
+  user = JSON.parse(this.userString!);
+  role = this.user.role;
 }
