@@ -37,10 +37,19 @@ export class StudentService {
     });
   }
 
-  getEnrolledQuizzes() : Observable<Quiz[]> {
+  getEnrolledQuizzes(): Observable<Quiz[]> {
     return this.http.get<Quiz[]>(`${this.API_URL}my-quizzes/`, {
       headers: this.getHeaders()
     });
   }
-
+  getQuizById(id: string): Observable<Quiz> {
+    return this.http.get<Quiz>(`${this.API_URL}${id}/`, {
+      headers: this.getHeaders()
+    });
+  }
+  submitAnswers(quizId: string, selectedAnswers: Record<number, number>) {
+    return this.http.post(`${this.API_URL}${quizId}/submit/`, { selectedAnswers }, {
+      headers: this.getHeaders()
+    });
+  }
 }

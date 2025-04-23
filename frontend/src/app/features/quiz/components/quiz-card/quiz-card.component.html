@@ -4,21 +4,21 @@
 
     <div class="mt-4 text-right">
         @if (role === 'student') {
-            @if (mode === 'my-quizzes') {
-
-                <button (click)="play()"
-                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                    {{ 'Play' }}
-                </button>
-            }
-            @else {
-                <button (click)="enroll()" [disabled]="isEnrolled" [ngClass]="{
+        @if (mode === 'my-quizzes') {
+        <a [routerLink]="['/quiz/play', quiz.id]">
+            <button (click)="play()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                {{ 'Play' }}
+            </button>
+        </a>
+        }
+        @else {
+        <button (click)="enroll()" [disabled]="isEnrolled" [ngClass]="{
                     'bg-blue-500 hover:bg-blue-600': !isEnrolled,
                     'bg-gray-400 cursor-not-allowed': isEnrolled
                   }" class="text-white px-4 py-2 rounded transition">
-                    {{ isEnrolled ? 'Enrolled' : 'Enroll' }}
-                </button>
-            }
+            {{ isEnrolled ? 'Enrolled' : 'Enroll' }}
+        </button>
+        }
         }
         @if (role === 'teacher') {
         <button routerLink="/dashboard/manage-quizzes" [queryParams]="{ quizId: quiz.id }"
