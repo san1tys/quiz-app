@@ -10,7 +10,7 @@
             {{ 'Unenroll' }}
         </button>
 
-        <button [routerLink]="['/quiz/play', quiz.id]" (click)="play()"
+        <button [routerLink]="['/quiz/play', quiz.id]"
             class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
             {{ 'Play' }}
         </button>
@@ -33,7 +33,7 @@
 
             <button routerLink="/dashboard/manage-quizzes" [queryParams]="{ quizId: quiz.id }"
                 class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                Details
+                Progress
             </button>
         </div>
         }

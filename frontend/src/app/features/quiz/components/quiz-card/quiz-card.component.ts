@@ -27,10 +27,6 @@ export class QuizCardComponent {
   role = this.user?.role ?? '';
   isEnrolled = false;
 
-  play() {
-      throw new Error('Method not implemented.');
-  }
-
   enroll() {
     if (!this.quiz.id) return;
 
