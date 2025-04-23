@@ -1,6 +1,6 @@
 <div class="bg-white shadow rounded-2xl p-4 border border-gray-100 hover:shadow-md transition duration-300">
     <h2 class="text-lg font-semibold mb-2">{{ quiz.title }}</h2>
-    <p class="text-sm text-slate-500 mb-2">{{ quiz.description }}</p>
+    <p class="text-sm text-slate-500 mb-2 truncate">{{ quiz.description }}</p>
     <p class="text-xs text-slate-500">ID: {{ quiz.id }}</p>
 
     <div class="mt-4 text-right">
@@ -13,7 +13,7 @@
         </button>
         }
         @if (role === 'teacher') {
-        <button routerLink="/dashboard/manage-quizzes"
+        <button routerLink="/dashboard/manage-quizzes" [queryParams]="{ quizId: quiz.id }"
             class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
             Details
         </button>

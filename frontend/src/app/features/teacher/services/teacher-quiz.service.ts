@@ -33,4 +33,11 @@ export class TeacherQuizService {
   getQuizzes(): Observable<Quiz[]> {
     return this.http.get<Quiz[]>(`${this.API_URL}quizzes/`, { headers: this.getHeaders() });
   }
+
+  getQuizScores(quizId: number): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}${quizId}/scores/`, {
+      headers: this.getHeaders()
+    });
+  }
+
 }
