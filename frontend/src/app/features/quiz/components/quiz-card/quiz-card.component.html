@@ -4,19 +4,19 @@
 
     <div class="mt-4 text-right">
         @if (role === 'student') {
-            @if (mode === 'my-quizzes') {
-                <button (click)="unenroll()"
-                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mr-5">
-                    {{ 'Unenroll' }}
-                </button>
+        @if (mode === 'my-quizzes') {
+        <button (click)="unenroll()"
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mr-5">
+            {{ 'Unenroll' }}
+        </button>
 
-                <button [routerLink]="['/quiz/play', quiz.id]" (click)="play()"
-                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                    {{ 'Play' }}
-                </button>
-            }
-            @else {
-                <button (click)="enroll()" [disabled]="isEnrolled" [ngClass]="{
+        <button [routerLink]="['/quiz/play', quiz.id]" (click)="play()"
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+            {{ 'Play' }}
+        </button>
+        }
+        @else {
+        <button (click)="enroll()" [disabled]="isEnrolled" [ngClass]="{
                     'bg-blue-500 hover:bg-blue-600': !isEnrolled,
                     'bg-gray-400 cursor-not-allowed': isEnrolled
                   }" class="text-white px-4 py-2 rounded transition">
@@ -25,10 +25,17 @@
         }
         }
         @if (role === 'teacher') {
-        <button routerLink="/dashboard/manage-quizzes" [queryParams]="{ quizId: quiz.id }"
-            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-            Details
-        </button>
+        <div class="flex gap-4 justify-end">
+            <button [routerLink]="['/quiz', quiz.id, 'detail']"
+                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mr-2">
+                Detail
+            </button>
+
+            <button routerLink="/dashboard/manage-quizzes" [queryParams]="{ quizId: quiz.id }"
+                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                Details
+            </button>
+        </div>
         }
     </div>
 </div>

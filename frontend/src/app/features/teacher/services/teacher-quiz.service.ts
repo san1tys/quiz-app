@@ -39,5 +39,10 @@ export class TeacherQuizService {
     });
   }
 
+  getQuizById(id: number): Observable<Quiz> {
+    return this.http.get<Quiz>(`${this.API_URL}${id}/`, {
+      headers: this.getHeaders()
+    });
+  }
 
 }

@@ -29,7 +29,7 @@ export class ManageUsersComponent implements OnInit {
     this.quizService.getQuizScores(this.quizId).subscribe({
       next: (data) => {
         this.quizScores = data;
-        this.totalParticipants = data.length;
+        this.totalParticipants = data.length || 0;
       },
       error: (err) => {
         console.error('Failed to fetch quiz scores', err);

@@ -1,0 +1,16 @@
+<div *ngIf="quiz" class="max-w-3xl mx-auto mt-6 p-6 bg-white rounded-2xl shadow-lg space-y-6">
+    <h1 class="text-3xl font-bold text-center text-primary">{{ quiz.title }}</h1>
+    <p class="text-center text-gray-500 text-lg">{{ quiz.description }}</p>
+
+    <div *ngFor="let question of quiz.questions"
+        class="p-4 bg-gray-50 rounded-xl shadow-inner hover:shadow-md transition-shadow duration-300">
+        <h3 class="text-lg font-semibold mb-2 text-gray-800">{{ question.text }}</h3>
+        <ul class="space-y-2">
+            <li *ngFor="let choice of question.answer_choices"
+                class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-blue-50 transition-colors duration-200"
+                [class.bg-green-100]="choice.is_correct" [class.text-green-700]="choice.is_correct">
+                {{ choice.text }}
+            </li>
+        </ul>
+    </div>
+</div>

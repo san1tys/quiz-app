@@ -11,6 +11,7 @@ import { ManageUsersComponent } from './features/teacher/pages/manage-users/mana
 import { MyQuizzesComponent } from './features/student/pages/my-quizzes/my-quizzes.component';
 import { ViewQuizzesComponent } from './features/student/pages/view-quizzes/view-quizzes.component';
 import { QuizPlayComponent } from './features/quiz/components/quiz-play/quiz-play.component';
+import { ViewQuizDetailComponent } from './features/teacher/pages/view-quiz-detail/view-quiz-detail.component';
 
 
 
@@ -32,5 +33,6 @@ export const routes: Routes = [
     { path: 'access-denied', component: AccessDeniedComponent },
     { path: 'dashboard/manage-quizzes', component: ManageUsersComponent, canActivate: [authGuard, TeacherGuard] },
     { path: 'quiz/play/:id', component: QuizPlayComponent },
+    { path: 'quiz/:id/detail', component: ViewQuizDetailComponent, canActivate: [authGuard, TeacherGuard] }
 
 ];
