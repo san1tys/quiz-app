@@ -1,0 +1,28 @@
+<div *ngIf="quiz">
+    <h2 class="text-xl font-bold mb-4">{{ quiz.title }}</h2>
+    <p class="mb-6">{{ quiz.description }}</p>
+
+    <form *ngIf="!showResult">
+        <div *ngFor="let question of quiz.questions; let i = index" class="mb-6">
+            <p class="font-medium">{{ i + 1 }}. {{ question.text }}</p>
+            <div *ngFor="let answer of question.answer_choices">
+                <label class="block">
+                    <input type="radio" [name]="'question' + i" [value]="answer.id" [(ngModel)]="selectedAnswers[i]" />
+                    {{ answer.text }}
+                </label>
+            </div>
+        </div>
+        <button type="button" (click)="submitQuiz()" class="bg-blue-500 text-white px-4 py-2 rounded">
+            Завершить квиз
+        </button>
+    </form>
+
+    <div *ngIf="showResult" class="mt-6">
+        <h3 class="text-lg font-bold">Результат</h3>
+        <p>Ты набрал {{ score }} из {{ quiz.questions.length }} баллов.</p>
+    </div>
+</div>
+
+<div *ngIf="!quiz">
+    <p>Загрузка квиза...</p>
+</div>
