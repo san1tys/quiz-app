@@ -13,21 +13,30 @@ import { StudentService } from '../../../student/services/student.service';
 })
 export class QuizCardComponent {
   @Input() quiz!: Quiz;
+
+  private studentQuizService = inject(StudentService);
+
   userString = localStorage.getItem('user');
-  user = JSON.parse(this.userString!);
-  role = this.user.role;
+  user = this.userString ? JSON.parse(this.userString) : null;
+  role = this.user?.role ?? '';
   isEnrolled = false;
-  studentQuizService = inject(StudentService);
+
   enroll() {
-    this.studentQuizService.enrollInQuiz(this.quiz.id!).subscribe({
+    if (!this.quiz.id) return;
+
+    this.studentQuizService.enrollInQuiz(this.quiz.id).subscribe({
       next: () => {
         this.isEnrolled = true;
         alert('Enrolled successfully!');
       },
       error: (err) => {
-        alert('Failed to enroll.');
-        console.log(err);
-
+        if (err?.error?.detail === 'Already enrolled.') {
+          this.isEnrolled = true;
+          alert('You are already enrolled!');
+        } else {
+          alert('Failed to enroll.');
+          console.error(err);
+        }
       }
     });
   }
