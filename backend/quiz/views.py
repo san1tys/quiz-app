@@ -200,7 +200,7 @@ class StudentScoresAPIView(AuthenticatedAPIView):
                 return Response({"detail" : "No one passed the quiz"}, status=200)
         else:
             return Response({"detail" : "You can't see student's answers"}, status=500)
-        serializer = QuizSubmission(data, many=True)
+        serializer = QuizSubmissionSerializer(data, many=True)
         return Response(serializer.data)
  
  
