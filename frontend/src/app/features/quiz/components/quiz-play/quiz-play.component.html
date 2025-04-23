@@ -1,28 +1,47 @@
-<div *ngIf="quiz">
-    <h2 class="text-xl font-bold mb-4">{{ quiz.title }}</h2>
-    <p class="mb-6">{{ quiz.description }}</p>
 
-    <form *ngIf="!showResult">
-        <div *ngFor="let question of quiz.questions; let i = index" class="mb-6">
-            <p class="font-medium">{{ i + 1 }}. {{ question.text }}</p>
-            <div *ngFor="let answer of question.answer_choices">
-                <label class="block">
-                    <input type="radio" [name]="'question' + i" [value]="answer.id" [(ngModel)]="selectedAnswers[i]" />
-                    {{ answer.text }}
-                </label>
-            </div>
-        </div>
-        <button type="button" (click)="submitQuiz()" class="bg-blue-500 text-white px-4 py-2 rounded">
-            Завершить квиз
-        </button>
-    </form>
 
-    <div *ngIf="showResult" class="mt-6">
-        <h3 class="text-lg font-bold">Результат</h3>
-        <p>Ты набрал {{ score }} из {{ quiz.questions.length }} баллов.</p>
+@if (quiz) {
+  <form
+    [formGroup]="quizForm"
+    (ngSubmit)="onSubmit()"
+    class="max-w-md mx-auto bg-white shadow-md rounded-md p-6"
+  >
+    <h2 class="text-2xl font-semibold mb-4 text-center">{{ quiz.title }}</h2>
+    @for (question of quiz.questions; track question.id) {
+      <div class="mb-4 mt-6">
+        <p class="text-lg font-semibold mb-2">{{ question.text }}</p>
+        @for (answer of question.answer_choices; track answer.id) {
+          <label class="block mb-2">
+            <input
+              type="radio"
+              [formControlName]="'question_' + question.id"
+              [value]="answer.text"
+              class="mr-2 focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
+            />
+            <span class="text-gray-700">{{ answer.text }}</span>
+          </label>
+        }
+      </div>
+    }
+    <button
+      type="submit"
+      [disabled]="quizForm.invalid"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 w-full"
+    >
+      Завершить
+    </button>
+  </form>
+
+  @if (isSubmitted) {
+    <div class="max-w-md mx-auto bg-white shadow-md rounded-md p-6 mt-8 text-center">
+      <h2 class="text-2xl font-semibold mb-4">Results</h2>
+      <p class="text-lg mb-2">Your score: <span class="font-bold">{{ this.score }}</span></p>
+      <p class="text-lg mb-4">Quiz is passed: <span class="font-bold">{{ this.isPassed ? 'Да' : 'Нет' }}</span></p>
     </div>
-</div>
-
-<div *ngIf="!quiz">
-    <p>Загрузка квиза...</p>
-</div>
+  }
+  @if (errorMessage) {
+    <p class="text-center text-red-500 mt-10">{{errorMessage}}</p>
+  }
+} @else {
+  <p>Loading quiz...</p>
+}

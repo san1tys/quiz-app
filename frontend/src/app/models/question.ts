@@ -4,7 +4,6 @@ export interface Question {
     id: string;
     text: string,
     answer_choices: AnswerChoice[];
-    correctAnswer: string;
     createdAt: Date;
     updatedAt: Date;
 }

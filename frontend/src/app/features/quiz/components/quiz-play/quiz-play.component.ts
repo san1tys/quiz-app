@@ -1,55 +1,87 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { StudentService } from '../../../student/services/student.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { QuizService } from '../../services/quiz.service';
 import { Quiz } from '../../../../models/quiz';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-quiz-play',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './quiz-play.component.html',
 })
-export class QuizPlayComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private studentService = inject(StudentService);
+export class QuizPlayComponent  {
+    quizService = inject(QuizService);
+    quizForm!: FormGroup;
+    quizId: string = '';
+    showResult = false;
+    score = 0;
 
-  quiz: Quiz | null = null;
-  selectedAnswers: Record<number, number> = {};
-  showResult = false;
-  score = 0;
+    quiz : Quiz | null = null;
 
-  ngOnInit() {
-    const quizId = this.route.snapshot.paramMap.get('id');
+    fb = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    isSubmitted = false;
+    isPassed = false;
+    errorMessage: string | null = null;
 
-    // Проверяем, что quizId не undefined
-    if (!quizId) {
-      console.error('Quiz ID not found');
-      return; // или можно сделать редирект на другую страницу
+    ngOnInit(): void {
+      this.route.params.subscribe((params) => {
+        this.quizId = params['id'];
+        this.fetchQuiz();
+      });
     }
 
-    // Если quizId есть, отправляем запрос
-    this.studentService.getQuizById(quizId).subscribe({
-      next: (data) => this.quiz = data,
-      error: (err) => console.error('Ошибка при загрузке квиза:', err)
-    });
-  }
-
-  submitQuiz() {
-    if (!this.quiz) return;
-
-    this.score = 0;
-
-    this.quiz.questions.forEach((q, index) => {
-      const selectedAnswerIndex = this.selectedAnswers[index]; // это number
-      const correct = q.answer_choices.find(a => a.is_correct);
-
-      if (correct && selectedAnswerIndex !== undefined && q.answer_choices[selectedAnswerIndex]?.is_correct) {
-        this.score++;
+    fetchQuiz(): void {
+      this.quizService.getQuizById(this.quizId).subscribe((quiz) => {
+          this.quiz = quiz;
+          console.log(quiz);
+          this.initializeForm();
       }
-    });
+      );
+    }
+  
+    initializeForm(): void {
+      const formControls: any = {};
+      this.quiz?.questions.forEach((question, index) => {
+        formControls[`question_${question.id}`] = ['', Validators.required]; 
+      });
+      this.quizForm = this.fb.group(formControls);
+    }
 
-    this.showResult = true;
-  }
+    onSubmit() {
+      if (this.quizForm.valid) {
+        
+        const selectedAnswers: { [key: string]: string } = {};
+        this.quiz?.questions.forEach((question) => {
+          const answer = this.quizForm.get(`question_${question.id}`)?.value;
+          selectedAnswers[question.id] = answer;
+        });
+        
+        this.quizService.submitAnswers(this.quizId, selectedAnswers).subscribe({
+          next: (response) => {
+            this.isSubmitted = true;
+            console.log('Ответы успешно отправлены:', response);
+            this.showResult = true;
+            this.score = response.score;
+            this.isPassed = response.is_passed;
+          },
+          error: (error) => {
+            if (error.status === 400) {
+              console.error('You have been already submitted to this quiz.', error);
+              this.errorMessage = 'You have been already submitted to this quiz.';
+            } else {
+              console.error('The unknown error was occured', error);
+              this.errorMessage = 'The unknown error was occured. Try later.';
+            }
+          }
+        });
+        
+
+        } else {
+          console.log("No valid");
+        }
+    }
+
 }
