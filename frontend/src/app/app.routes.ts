@@ -7,7 +7,7 @@ import { DashboardComponent } from './user/auth/pages/dashboard/dashboard.compon
 import { authGuard } from './core/auth.guard';
 import { TeacherGuard } from './features/teacher/services/teacher.guard';
 import { AccessDeniedComponent } from './user/auth/pages/access-denied/access-denied.component';
-import { ManageQuizzesComponent } from './features/teacher/pages/manage-quizzes/manage-quizzes.component';
+import { ManageUsersComponent } from './features/teacher/pages/manage-users/manage-users.component';
 
 
 export const routes: Routes = [
@@ -18,5 +18,5 @@ export const routes: Routes = [
     { path: 'dashboard/create', component: CreateQuizComponent, canActivate: [authGuard, TeacherGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
     { path: 'access-denied', component: AccessDeniedComponent },
-    { path: 'dashboard/manage-quizzes', component: ManageQuizzesComponent, canActivate: [authGuard, TeacherGuard] },
+    { path: 'dashboard/manage-quizzes', component: ManageUsersComponent, canActivate: [authGuard, TeacherGuard] },
 ];
