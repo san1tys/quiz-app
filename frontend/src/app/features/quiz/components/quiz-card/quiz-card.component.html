@@ -2,4 +2,15 @@
     <h2 class="text-lg font-semibold mb-2">{{ quiz.title }}</h2>
     <p class="text-sm text-slate-500 mb-2">{{ quiz.description }}</p>
     <p class="text-xs text-slate-500">ID: {{ quiz.id }}</p>
+
+    <div class="mt-4 text-right">
+        @if (role === 'student') {
+        <button routerLink="dashboard/manage-quizzes"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Enroll</button>
+        }
+        @if (role === 'teacher') {
+        <button routerLink=""
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Details</button>
+        }
+    </div>
 </div>

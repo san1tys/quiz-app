@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Quiz } from '../../../../models/quiz';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-quiz-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './quiz-card.component.html',
   styleUrl: './quiz-card.component.scss',
 })
