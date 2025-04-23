@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Quiz } from '../../../../models/quiz';
 import { RouterLink } from '@angular/router';
@@ -13,6 +13,9 @@ import { StudentService } from '../../../student/services/student.service';
 })
 export class QuizCardComponent {
 
+
+
+  @Output() deleted = new EventEmitter<string>();
 
   @Input() quiz!: Quiz;
   @Input() mode: 'my-quizzes' | 'all-quizzes' = 'all-quizzes'
@@ -38,10 +41,29 @@ export class QuizCardComponent {
       },
       error: (err) => {
         if (err?.error?.detail === 'Already enrolled.') {
-          this.isEnrolled = true;
           alert('You are already enrolled!');
         } else {
           alert('Failed to enroll.');
+          console.error(err);
+        }
+      }
+    });
+  }
+
+  unenroll() {
+    if (!this.quiz.id) return;
+
+    this.studentQuizService.unEnrollInQuiz(this.quiz.id).subscribe({
+      next: () => {
+        this.isEnrolled = true;
+        this.deleted.emit(this.quiz.id)
+        alert('Unenrolled successfully!');
+      },
+      error: (err) => {
+        if (err?.error?.detail === 'Not enrolled in this quiz') {
+          alert('You are already unenrolled!');
+        } else {
+          alert('Failed to unenroll.');
           console.error(err);
         }
       }

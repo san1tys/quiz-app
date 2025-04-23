@@ -5,6 +5,10 @@
     <div class="mt-4 text-right">
         @if (role === 'student') {
             @if (mode === 'my-quizzes') {
+                <button (click)="unenroll()"
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mr-5">
+                    {{ 'Unenroll' }}
+                </button>
 
                 <button (click)="play()"
                         class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">

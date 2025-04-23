@@ -37,6 +37,12 @@ export class StudentService {
     });
   }
 
+  unEnrollInQuiz(quizId: string): Observable<any> {
+    return this.http.post(`${this.API_URL}${quizId}/unenroll/`, {}, {
+      headers: this.getHeaders()
+    });
+  }
+
   getEnrolledQuizzes() : Observable<Quiz[]> {
     return this.http.get<Quiz[]>(`${this.API_URL}my-quizzes/`, {
       headers: this.getHeaders()

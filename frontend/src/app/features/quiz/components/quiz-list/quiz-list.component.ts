@@ -13,4 +13,15 @@ import { Quiz } from '../../../../models/quiz';
 export class QuizListComponent {
   @Input() quizzes: Quiz[] = [];
   @Input() mode: 'my-quizzes' | 'all-quizzes' = 'all-quizzes'
+
+
+  onUnenrolled(id: string) {
+    console.log('Удаляю id:', id);
+console.log('До удаления:', this.quizzes);
+
+this.quizzes = this.quizzes.filter(q => q.id !== id);
+
+console.log('После удаления:', this.quizzes);
+  
+  }
 }
